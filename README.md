@@ -43,7 +43,6 @@ Bugs can be reported [here](https://github.com/D4rK7355608/com.google.android.ap
 
 ## 🛑 Disclaimer!
 - This Application is made only for Education Purpose.
-- App is made for mew Android App developers who want to get an idea with examples about android application development with Android Studio IDE.
 - Only use the GitHub Issues section if you discover issues with the code itself. Do not mistake the Issues page as a help desk. For support, information and requests, please contact d4rk7355608@gmail.com.
 
 ## 💬 Feedback!
