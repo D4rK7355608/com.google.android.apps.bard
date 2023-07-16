@@ -10,7 +10,8 @@ android {
         minSdk 27
         targetSdk 33
         versionCode 1
-        versionName '1.0'
+        versionName '1.0_r1'
+        archivesBaseName = "${applicationId}-v${versionName}"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
