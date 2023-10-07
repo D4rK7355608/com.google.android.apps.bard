@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.webkit.JavascriptInterface
@@ -15,12 +16,14 @@ import android.content.SharedPreferences
 import android.webkit.CookieManager
 import android.webkit.WebSettings
 import com.google.android.apps.bard.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 class MainActivity : Activity() {
-    private val userAgent = "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.135 Mobile Safari/537.36"
+    private val userAgent = "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.5938.60 Mobile Safari/537.36"
     private val chatUrl = "https://bard.google.com/"
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var cookieManager: CookieManager
     @SuppressLint("SetJavaScriptEnabled")
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -32,6 +35,9 @@ class MainActivity : Activity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        cookieManager = CookieManager.getInstance()
+        cookieManager.setAcceptCookie(true)
+        cookieManager.setAcceptThirdPartyCookies(binding.webView, true)
         initializeFastScroller()
         registerBackButtonCallback()
         val userAccount = getUserAccount()
@@ -48,17 +54,15 @@ class MainActivity : Activity() {
         setupWebViewClient()
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.webView.reload()
+            binding.swipeRefreshLayout.isRefreshing = false
         }
-        binding.webView.loadUrl(chatUrl)
     }
     private fun initializeFastScroller() {
         FastScrollerBuilder(binding.webView).useMd2Style().build()
     }
     private fun registerBackButtonCallback() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            onBackInvokedDispatcher.registerOnBackInvokedCallback(
-                OnBackInvokedDispatcher.PRIORITY_DEFAULT
-            ) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
                 if (binding.webView.canGoBack()) {
                     binding.webView.goBack()
                 } else {
@@ -69,9 +73,6 @@ class MainActivity : Activity() {
     }
     @SuppressLint("SetJavaScriptEnabled")
     private fun configureWebViewSettings() {
-        val cookieManager = CookieManager.getInstance()
-        cookieManager.setAcceptCookie(true)
-        cookieManager.setAcceptThirdPartyCookies(binding.webView, true)
         binding.webView.settings.apply {
             cacheMode = WebSettings.LOAD_DEFAULT
             userAgentString = userAgent
@@ -84,49 +85,51 @@ class MainActivity : Activity() {
     }
     private fun setupWebViewClient() {
         binding.webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                val url = request?.url ?: return false
-                if (url.toString().contains(chatUrl)) {
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                val urlString = request?.url?.toString() ?: return false
+                if (urlString == "alert://alert") {
+                    Snackbar.make(binding.root, "alert", Snackbar.LENGTH_LONG).show()
+                } else if (urlString == "choose://image") {
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    intent.type = "image/*"
+                    startActivityForResult(intent, 1)
+                    return true
+                }
+                if (urlString.contains(chatUrl)) {
                     return false
                 }
-                if (binding.webView.url.toString().contains(chatUrl) && !binding.webView.url.toString().contains("/auth")) {
-                    view?.loadUrl(url.toString())
+                if (binding.webView.url?.contains(chatUrl) == true && !binding.webView.url.toString().contains("/auth")) {
+                    view?.loadUrl(urlString)
                     return true
                 }
                 return false
             }
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                if (binding.webView.url.toString().contains(chatUrl) && !binding.webView.url.toString().contains("/auth")) {
+                if (binding.webView.url?.contains(chatUrl) == true && !binding.webView.url.toString().contains("/auth")) {
                     val userAccount = extractUserAccountFromWebPage()
                     if (userAccount.isNotEmpty()) {
                         saveUserAccount(userAccount)
                     }
                 }
-                binding.swipeRefreshLayout.isRefreshing =
-                    false
-                binding.swipeRefreshLayout.isEnabled =
-                    !(binding.webView.url.toString().contains(chatUrl) && !binding.webView.url.toString().contains("/auth"))
-                binding.webView.evaluateJavascript(
-                    """
-                    (() => {
-                      navigator.clipboard.writeText = (text) => {
-                            Android.copyToClipboard(text);
-                            return Promise.resolve();
-                        }
-                    })();
-                    """.trimIndent(), null
+                binding.swipeRefreshLayout.isRefreshing = false
+                binding.swipeRefreshLayout.isEnabled = !(binding.webView.url?.contains(chatUrl) == true && !binding.webView.url.toString().contains("/auth"))
+                binding.webView.evaluateJavascript("""
+                (() => {
+                  navigator.clipboard.writeText = (text) => {
+                        Android.copyToClipboard(text);
+                        return Promise.resolve();
+                    }
+                })();
+                """.trimIndent(), null
                 )
             }
         }
     }
     private fun extractUserAccountFromWebPage(): String {
         var userAccount = ""
-        binding.webView.evaluateJavascript(
-            """
+        binding.webView.evaluateJavascript("""
         (function() {
             // Replace this code with the appropriate JavaScript code to extract the account information
             // Example: If the account is stored in a DOM element with id "account", you can use the following code:
@@ -136,8 +139,7 @@ class MainActivity : Activity() {
             }
             return '';
         })();
-        """
-        ) { result ->
+        """) { result ->
             userAccount = result?.trim('"') ?: ""
         }
         return userAccount
@@ -147,7 +149,6 @@ class MainActivity : Activity() {
     }
     override fun onPause() {
         super.onPause()
-        val cookieManager = CookieManager.getInstance()
         val cookies = cookieManager.getCookie(chatUrl)
         sharedPreferences.edit().putString("cookies", cookies).apply()
     }
@@ -155,7 +156,8 @@ class MainActivity : Activity() {
         super.onResume()
         val cookies = sharedPreferences.getString("cookies", "")
         if (!cookies.isNullOrEmpty()) {
-            val cookieManager = CookieManager.getInstance()
+            cookieManager.removeAllCookies(null)
+            cookieManager.flush()
             val cookieArray = cookies.split(";")
             for (cookie in cookieArray) {
                 cookieManager.setCookie(chatUrl, cookie)
