@@ -29,11 +29,11 @@ Bugs can be reported [here](https://github.com/D4rK7355608/com.google.android.ap
 - Create an webview/general bug.  🐞
 
 ## 🛠️ Features!
-⭐️ Monochrome icon. \
-⭐️ Adaptive themes. \
-⭐️ Simple and easy to use. \
-⭐️ Fast and lightweight. \
-⭐️ Free Open source & secure.
+🚀 Fast and lightweight. \
+✨ Simple and easy to use. \
+🌟 Free and open-source software. \
+⚫ Monochrome icon. \
+🎨 Adaptive themes.
 
 ## 📝 Changelog [here](https://raw.githubusercontent.com/D4rK7355608/com.google.android.apps.bard/master/CHANGELOG.md)!
 
@@ -50,17 +50,35 @@ We are constantly updating and improving Bard to give you the best possible expe
 
 Thank you for choosing Bard. We hope you enjoy using our app as much as we enjoyed creating it for you! Rate us 5 stars ⭐⭐⭐⭐⭐ if you are happy with the app! ❤
 
-## 👨🏻‍💻 &nbsp;More About Me:
-<a href="mailto:d4rk7355608@gmail.com"><img src="https://img.shields.io/badge/d4rk7355608@gmail.com-red?style=for-the-badge&logo=gmail&logoColor=white"/></a>
-<a href="https://developers.google.com/profile/u/D4rK7355608"><img src="https://img.shields.io/badge/Android%20Developers-white?style=for-the-badge&logo=android"/></a>
-<a href="https://forum.xda-developers.com/m/d4rk7355608.10095012/"><img src="https://img.shields.io/badge/XDA%20Developers-grey?style=for-the-badge&logo=xdadevelopers"/></a>
-<a href="https://www.deviantart.com/d4rk7355608"><img src="https://img.shields.io/badge/DeviantArt-default?style=for-the-badge&logo=deviantart&logoColor=white"/></a>
-<a href="https://gamejolt.com/@D4rK_S-A-D"><img src="https://img.shields.io/badge/GameJolt-grey?style=for-the-badge&logo=gamejolt&logoColor=white"/></a>
-<a href="https://patreon.com/D4rK7355608"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3DD4rK7355608%26type%3Dpatrons&style=for-the-badge"/></a>
-<a href="https://www.paypal.me/d4rkmichaeltutorials"><img src="https://img.shields.io/badge/Paypal-white?style=for-the-badge&logo=paypal"/></a>
-<a href="https://twitter.com/D4rK7355608/"><img src="https://img.shields.io/twitter/follow/D4rK7355608?color=blue&label=Twitter&logo=Twitter&style=for-the-badge"/></a>
-<a href="https://www.youtube.com/c/D4rK7355608/"><img src="https://img.shields.io/youtube/channel/subscribers/UCLDi-rmSRry0pNL-oVvGJAw?color=darkred&label=D4rK&logo=youtube&logoColor=darkred&style=for-the-badge"/></a>
-<a href="https://github.com/D4rK7355608/"><img src="https://img.shields.io/github/followers/D4rK7355608?color=white&logo=GitHub&style=for-the-badge"/></a>
+## 👨🏻‍💻 &nbsp;More About Me!
+
+### ● Music:
+<a href="https://music.youtube.com/channel/UC80JI44n7GpRGrlR71PtvPg"><img src="https://img.shields.io/badge/YouTube%20Music-red?style=for-the-badge&logo=youtubemusic"/></a>
+<a href="https://www.youtube.com/@D4rKRekords?sub_confirmation=1"><img src="https://img.shields.io/youtube/channel/subscribers/UCtzlWsxUK8FSvLwLDbESw4A?color=red&label=D4rK%20Rekords&logo=youtube&logoColor=red&style=for-the-badge"/></a>
+<a href="https://open.spotify.com/artist/5FF8wvyTpzoHzM8e9Z7GU8"><img src="https://img.shields.io/badge/Spotify-white?style=for-the-badge&logo=spotify"/></a>
+<a href="https://music.apple.com/us/artist/d4rk-rekords/1704194206"><img src="https://img.shields.io/badge/apple%20music-red?style=for-the-badge&logo=applemusic"/></a>
+<a href="https://music.amazon.com/artists/B0CGKL8KSY/d4rk-rekords"><img src="https://img.shields.io/badge/amazon%20music-black?style=for-the-badge&logo=amazon"/></a>
+<a href="https://www.deezer.com/us/artist/227044765"><img src="https://img.shields.io/badge/deezer-black?style=for-the-badge&logo=deezer"/></a>
+<a href="https://soundcloud.com/d4rk-rekords"><img src="https://img.shields.io/badge/soundcloud-white?style=for-the-badge&logo=soundcloud"/></a>
+
+### ● Graphics:
+<a href="https://www.deviantart.com/d4rk7355608"><img src="https://img.shields.io/badge/deviantart-black?style=for-the-badge&logo=deviantart"/></a>
+<a href="https://www.pinterest.com/d4rk7355608/"><img src="https://img.shields.io/badge/pinterest-red?style=for-the-badge&logo=pinterest"/></a>
+<a href="https://imgur.com/user/D4rK7355608/posts"><img src="https://img.shields.io/badge/imgur-black?style=for-the-badge&logo=imgur"/></a>
+
+### ● Social:
+<a href="https://www.youtube.com/@D4rK7355608?sub_confirmation=1"><img src="https://img.shields.io/youtube/channel/subscribers/UCLDi-rmSRry0pNL-oVvGJAw?color=red&label=D4rK&logo=youtube&logoColor=red&style=for-the-badge"/></a>
+<a href="https://www.youtube.com/@D4rKCinema10?sub_confirmation=1"><img src="https://img.shields.io/youtube/channel/subscribers/UCVbbqODJ8qX_Cc1rSdom3fw?color=red&label=D4rK%20Cinema&logo=youtube&logoColor=red&style=for-the-badge"/></a>
+<a href="https://gamejolt.com/@D4rK7355608"><img src="https://img.shields.io/badge/gamejolt-black?style=for-the-badge&logo=gamejolt"/></a>
+<a href="https://twitter.com/D4rK7355608"><img src="https://img.shields.io/twitter/follow/D4rK7355608?style=for-the-badge&logo=x"/></a>
+<a href="d4rk7355608"><img src="https://img.shields.io/badge/Skype-white?style=for-the-badge&logo=skype"/></a>
+<a href="https://steamcommunity.com/id/d4rk7355608"><img src="https://img.shields.io/badge/Steam-black?style=for-the-badge&logo=steam"/></a>
+<a href="https://steamcommunity.com/tradeoffer/new/?partner=892981294&token=pxsUtrm3"><img src="https://img.shields.io/badge/Steam-black?style=for-the-badge&logo=steam"/></a>
+
+### ● Developer stuff:
+<a href="https://github.com/D4rK7355608"><img src="https://img.shields.io/badge/GitHub-black?style=for-the-badge&logo=Github"/></a>
+<a href="https://play.google.com/store/apps/dev?id=5390214922640123642"><img src="https://img.shields.io/badge/Play%20Store-yellow?style=for-the-badge&logo=googleplay"/></a>
+<a href="https://g.dev/D4rK7355608"><img src="https://img.shields.io/badge/Google%20Dev-white?style=for-the-badge&logo=google&logoColor=black"/></a>
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90">](https://play.google.com/store/apps/dev?id=5390214922640123642)
 
