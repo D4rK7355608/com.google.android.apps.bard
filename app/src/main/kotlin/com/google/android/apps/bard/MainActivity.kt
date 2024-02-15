@@ -13,17 +13,29 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.window.OnBackInvokedDispatcher
 import android.content.SharedPreferences
+import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
 import android.webkit.CookieManager
+import android.webkit.ValueCallback
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
+import androidx.core.content.FileProvider
 import com.google.android.apps.bard.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 class MainActivity : Activity() {
-    private val userAgent = "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.5938.60 Mobile Safari/537.36"
+    private val userAgent = "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.6127.2 Mobile Safari/537.36"
     private val chatUrl = "https://bard.google.com/"
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var cookieManager: CookieManager
+    private var uploadMessage: ValueCallback<Array<Uri>>? = null
+    private val fileChooserResultCode = 1
     @SuppressLint("SetJavaScriptEnabled")
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -52,10 +64,40 @@ class MainActivity : Activity() {
         configureWebViewSettings()
         setupWebViewInterface()
         setupWebViewClient()
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            binding.webView.reload()
-            binding.swipeRefreshLayout.isRefreshing = false
+        binding.webView.webChromeClient = object : WebChromeClient() {
+            override fun onShowFileChooser(webView: WebView, filePathCallback: ValueCallback<Array<Uri>>, fileChooserParams: FileChooserParams): Boolean {
+                uploadMessage = filePathCallback
+                val galleryIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "image/*"
+                }
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                val photoFile = createImageFile()
+                val photoURI = FileProvider.getUriForFile(this@MainActivity, "com.example.fileprovider", photoFile)
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                val chooserIntent = Intent.createChooser(galleryIntent, "Image Chooser").apply {
+                    putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+                }
+                startActivityForResult(chooserIntent, fileChooserResultCode)
+                return true
+            }
         }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == fileChooserResultCode) {
+            if (uploadMessage != null) {
+                val result = WebChromeClient.FileChooserParams.parseResult(resultCode, data)
+                uploadMessage?.onReceiveValue(result)
+                uploadMessage = null
+            }
+        }
+    }
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "JPEG_${timeStamp}_"
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(imageFileName, ".jpg", storageDir)
     }
     private fun initializeFastScroller() {
         FastScrollerBuilder(binding.webView).useMd2Style().build()
@@ -113,8 +155,6 @@ class MainActivity : Activity() {
                         saveUserAccount(userAccount)
                     }
                 }
-                binding.swipeRefreshLayout.isRefreshing = false
-                binding.swipeRefreshLayout.isEnabled = !(binding.webView.url?.contains(chatUrl) == true && !binding.webView.url.toString().contains("/auth"))
                 binding.webView.evaluateJavascript("""
                 (() => {
                   navigator.clipboard.writeText = (text) => {
@@ -126,6 +166,7 @@ class MainActivity : Activity() {
                 )
             }
         }
+
     }
     private fun extractUserAccountFromWebPage(): String {
         var userAccount = ""

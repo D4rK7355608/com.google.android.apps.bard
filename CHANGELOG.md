@@ -1,3 +1,8 @@
+# Version 1.1.0:
+- **Patch**: Fixed app crashes caused by the swipe to refresh layout.
+- **Patch**: Fixed image upload feature.
+- **Patch**: Updated dependencies to the latest versions.
+
 # Version 1.0.2:
 - **Patch**: Fixed issue with Build CI on GitHub.
 
